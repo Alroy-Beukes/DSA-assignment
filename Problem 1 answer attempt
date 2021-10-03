@@ -1,0 +1,39 @@
+import ballerina/io;
+import ballerina/http;
+
+type learner record {|
+string username;
+string firstname;
+string prefered_format;
+string lastname;
+string past_subjectCourse;
+string past_subjectscore;
+
+//array of items used to identify the learner.
+
+|};
+learner[] all_users = [];
+
+
+service /users on new http:Listener(8080) {
+
+resource function get all() returns learner[] {
+io:println("handling GET request to /learner/all");
+return all_users;
+// function above used to return all users
+}
+
+resource function post insert(@http:Payload learner new_user) returns json {
+io:println("handling POST request to /users/insert");
+all_users.push(new_user);
+return {done: "Ok added a new user"};
+// function above implements theprocees of inserting new users.
+}
+
+}
+
+public function main() {
+    
+    
+    io:println("Hello World!");
+}
